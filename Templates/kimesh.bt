@@ -1,0 +1,493 @@
+//------------------------------------------------
+//--- 010 Editor v15.0.1 Binary Template
+//
+//      File: kimesh.bt
+//   Authors: XenonValstrax
+//   Version: 
+//   Purpose: Parsing Killer Instinct mesh (*.kimesh) files
+//  Category: KI
+// File Mask: *.kimesh
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+LittleEndian();
+local uint32 _;
+
+typedef struct
+{
+    float X; float Y; float Z;
+}
+vec3 <read=Str("[%f, %f, %f]", X, Y, Z), write=Vec3FWrite>;
+
+void Vec3FWrite( vec3 &v, string s )
+{
+    SScanf( s, "[%f, %f, %f]", v.X, v.Y, v.Z );
+}
+
+typedef struct
+{
+    float X; float Y; float Z; float W;
+}
+vec4 <read=Str("[%f, %f, %f, %f]", X, Y, Z, W), write=Vec4FWrite>;
+
+void Vec4FWrite( vec4 &v, string s )
+{
+    SScanf( s, "[%f, %f, %f, %f]", v.X, v.Y, v.Z, v.W );
+}
+
+typedef struct
+{
+    uint8 X; uint8 Y; uint8 Z; uint8 W;
+}
+vec4_unorm8 <read=Str("[%u, %u, %u, %u]", X, Y, Z, W), write="">;
+
+typedef struct
+{
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 dataOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+}
+DATAINFOTBL1 <read=dataOffset>;
+
+typedef struct
+{
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 dataCount;
+    uint32 dataOffset;
+    /*uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkCount0;
+    uint32 unkOffset0;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 meshInfoCount;
+    uint32 meshInfoOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset1;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset2;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset3;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset4;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 skeletonInfoOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 skeletonFlagsOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 boneIndicesTblOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 boneNameTblCount;
+    uint32 boneNameTblOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset9;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset10;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 unkOffset11;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 meshInfo2Offset;
+    while (1)
+    {
+        if (FTell() < header.dataInfoEntry2)
+        {
+            uint32 UnknownUInt32;
+        }
+        else
+        {
+            break;
+        }
+    }*/
+}
+DATAINFOTBL2 <read=dataOffset, optimize=false>;
+
+typedef struct
+{
+    vec3 UnknownVec3;
+    uint32 UnknownUInt32;
+    vec3 UnknownVec3;
+    vec3 UnknownVec3;
+    vec3 UnknownVec3;
+    uint32 UnknownUInt32;
+    vec4 UnknownVec4;
+    vec4 UnknownVec4;
+    vec3 UnknownVec3;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    vec3 UnknownVec3Group_0[8];
+    uint32 UnknownUInt32;
+    vec3 UnknownVec3Group_1[5];
+    uint32 UnknownUInt32Group_0[13];
+}
+UNKINFO0;
+
+typedef struct
+{
+    uint16 UnknownUInt16;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UVType;
+    uint32 faceIndexStart;
+    uint32 faceCount;
+    uint32 vertexCount;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 faceIndexCount;
+    uint32 faceCount2;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    float UnknwonFloat32;
+    vec3 UnknownVec3;
+    vec3 UnknownVec3;
+    vec3 UnknownVec3;
+    uint32 UnknownUInt32Group_0[64];
+    uint32 boneCount;
+    uint32 UnknownUInt32Group_12[11];
+    uint16 UnknownUint16;
+}
+MESHINFO <optimize=false, bgcolor=cDkPurple, fgcolor=cPurple>;
+
+typedef struct
+{
+    uint32 vertexDataSize;
+    uint32 vertexOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 weightDataSize;
+    uint32 weightOffset;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+}
+MESHINFO2 <bgcolor=0xA10076, fgcolor=0xFF00CD>;
+
+typedef struct 
+{ 
+    uint16 indexA; 
+    uint16 indexB; 
+    uint16 indexC; 
+} 
+FACE <read=Str("%u %u %u", indexA, indexB, indexC), bgcolor=cDkGreen, fgcolor=cLtGreen>;
+
+typedef struct
+{
+    vec3 position;
+    vec4_unorm8 normal;
+    vec4_unorm8 weights;
+}
+VERTEXINFO_20 <bgcolor=cDkRed, fgcolor=cRed>;
+
+typedef struct
+{
+    uint32 boneCount;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 indices[boneCount];
+}
+BONEINFO <optimize=false>;
+
+typedef struct
+{
+    uint8 weight;
+    uint8 weight;
+    uint8 weight;
+    uint8 weight;
+    uint8 bone;
+    uint8 bone;
+    uint8 bone;
+    uint8 bone;
+}
+WEIGHTINFO_8 <read=Str("[%u, %u, %u, %u] (%u, %u, %u, %u)", weight[0], weight[1], weight[2], weight[3], bone[0], bone[1], bone[2], bone[3]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
+
+typedef struct
+{
+    uint8 weight;
+    uint8 weight;
+    uint8 weight;
+    uint8 weight;
+    uint16 bone;
+    uint16 bone;
+    uint16 bone;
+    uint16 bone;
+}
+WEIGHTINFO_12 <read=Str("[%u, %u, %u, %u] (%u, %u, %u, %u)", weight[0], weight[1], weight[2], weight[3], bone[0], bone[1], bone[2], bone[3]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
+
+typedef struct
+{
+    float weight;
+    float weight;
+    uint8 bone;
+    uint8 bone;
+    uint8 bone;
+    uint8 bone;
+    uint16 UnknownUInt16;
+    uint16 UnknownUInt16;
+}
+WEIGHTINFO_16 <read=Str("[%f, %f] (%u, %u, %u, %u)", weight[0], weight[1], bone[0], bone[1], bone[2], bone[3]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
+
+typedef struct
+{
+    float weight;
+    float weight;
+    float weight;
+    float weight;
+    uint16 bone;
+    uint16 bone;
+    uint16 bone;
+    uint16 bone;
+}
+WEIGHTINFO_24 <read=Str("[%f, %f, %f, %f] (%u, %u, %u, %u)", weight[0], weight[1], weight[2], weight[3], bone[0], bone[1], bone[2], bone[3]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
+
+struct
+{
+    uint32 fileType;
+    uint32 fileVersion;
+    uint32 dataEntry;
+    uint32 dataInfoCount;
+    uint32 dataInfo3Count;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 dataInfoEntry;
+    uint32 UnknownUInt32;
+    uint32 dataInfo3Entry;
+    uint32 UnknownUInt32;
+    uint32 dataInfo4Entry;
+} header;
+
+FSeek(header.dataInfoEntry);
+DATAINFOTBL1 dataInfo1[header.dataInfoCount] <bgcolor=cDkBlue, fgcolor=cLtBlue>;
+uint32 UnknownUInt32Group_0[3];
+DATAINFOTBL2 dataInfo2[29];
+uint32 UnknownUInt32Group_1[3];
+FSeek(header.dataInfo3Entry);
+struct
+{
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+} dataInfo3[header.dataInfo3Count];
+
+FSeek(header.dataInfo4Entry);
+struct
+{
+    while (1)
+    {
+        if (FTell() < header.dataEntry)
+        {
+            uint32 UnknownUInt32;
+        }
+        else
+        {
+            break;
+        }
+    }
+} dataInfo4;
+
+FSeek(header.dataEntry);
+struct
+{
+    uint32 UnknownUInt32Group_0[3] <bgcolor=cDkGreen, fgcolor=cLtGreen>;
+    local uint32 dataStart1 = FTell();
+    uint32 UnknownUInt32Group_1[20];
+    uint16 UnknwonUInt16;
+    local uint32 dataStart2 = FTell();
+    
+    uint16 UnknownUInt16;
+    float UnkFloatGroup_0[36] <hidden=true>;
+    UNKINFO0 unkData <hidden=true>;
+    
+    FSeek(dataStart1 + dataInfo2[1].dataOffset);
+    UNKINFO0 unkData0[dataInfo2[1].dataCount] <bgcolor=cDkRed, fgcolor=cLtRed, hidden=true>;
+    
+    FSeek(dataStart2 + dataInfo2[2].dataOffset);
+    MESHINFO meshInfo[dataInfo2[2].dataCount];
+    
+    FSeek(dataStart1 + dataInfo2[14].dataOffset);
+    MESHINFO2 meshInfo2[dataInfo2[2].dataCount];
+    
+    FSeek(dataStart1 + dataInfo2[19].dataOffset + dataInfo2[23].dataOffset);
+    struct
+    {
+        string nameString;
+    } nameList[dataInfo2[2].dataCount + 2] <read=nameString, fgcolor=cPurple, optimize=false>;
+    
+    for (_=0; _<dataInfo2[2].dataCount; ++_)
+    {
+        FSeek(dataStart2 + dataInfo2[2].dataOffset + _ * 432);
+        struct
+        {
+            FSeek(dataStart1 + dataInfo1[3].dataOffset + meshInfo2[_].vertexOffset);
+            if (meshInfo2[_].vertexDataSize == 20)
+            { VERTEXINFO_20 vertices[meshInfo[_].vertexCount]; }
+            
+            FSeek(dataStart1 + dataInfo1[4].dataOffset + meshInfo2[_].weightOffset);
+            if (meshInfo2[_].weightDataSize == 8)
+            { WEIGHTINFO_8 weights[meshInfo[_].vertexCount]; }
+            if (meshInfo2[_].weightDataSize == 12)
+            { WEIGHTINFO_12 weights[meshInfo[_].vertexCount]; }
+            if (meshInfo2[_].weightDataSize == 16)
+            { WEIGHTINFO_16 weights[meshInfo[_].vertexCount]; }
+            if (meshInfo2[_].weightDataSize == 24)
+            { WEIGHTINFO_24 weights[meshInfo[_].vertexCount]; }
+            
+            FSeek(dataStart1 + dataInfo1[2].dataOffset + meshInfo[_].faceIndexStart * 2);
+            FACE faces[meshInfo[_].faceCount];
+            
+            local string readStr = parentof(this).nameList[_+1].nameString;
+            //FSeek(FileSize());
+            FSeek(dataStart2 + dataInfo2[2].dataOffset + (_+1) * 432);
+        } mesh <read=readStr, optimize=false>;
+    }
+    
+    FSeek(dataStart1 + dataInfo2[7].dataOffset);
+    struct
+    {
+        uint32 boneCount;
+        
+        FSeek(dataStart1 + dataInfo2[8].dataOffset);
+        uint32 UnknownSkeletonFlags[2];
+        
+        FSeek(dataStart1 + dataInfo2[9].dataOffset);
+        uint32 boneIndices[boneCount];
+        
+        FSeek(dataStart1 + dataInfo2[10].dataOffset);
+        struct
+        {
+            string boneNameString <fgcolor=cPurple>;
+        } boneNames[boneCount] <optimize=false, read=boneNameString, write=boneNameString>;
+    } skeletonInfo <bgcolor=cDkAqua, fgcolor=cLtAqua>;
+    
+    FSeek(dataStart1 + dataInfo1[5].dataOffset);
+    vec4 UnknownBoneInfo[skeletonInfo.boneCount];
+    /*local uint32 faceCount = 0;
+    local uint32 vertexCount = 0;
+    for (_=0; _<dataInfo2[2].dataCount; ++_)
+    {
+        faceCount += meshInfo[_].faceCount;
+        vertexCount += meshInfo[_].vertexCount;
+    }
+    
+    FSeek(dataStart1 + dataInfo1[2].dataOffset);
+    FACE faces[faceCount];
+    
+    FSeek(dataStart1 + dataInfo1[3].dataOffset);
+    VERTEXINFO_20 vertexInfo[vertexCount];*/
+    
+    /*FSeek(dataStart2 + dataInfo2.unkOffset1);
+    struct 
+    {
+        uint32 UnknownUInt32;
+        uint32 UnknownUInt32;
+    } unkMeshData[dataInfo2[2].dataCount];
+    
+    FSeek(dataStart2 + dataInfo2.unkOffset2);
+    uint32 unkData2[18];
+    
+    FSeek(dataStart2 + dataInfo2.unkOffset3);
+    uint32 unkData3[4] <bgcolor=cDkRed, fgcolor=cLtRed>;
+    
+    FSeek(dataStart2 + dataInfo2.unkOffset4);
+    uint32 unkData4[4] <bgcolor=cDkRed, fgcolor=cLtRed>;*/
+    
+} data <optimize=false>;

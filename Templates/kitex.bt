@@ -1,0 +1,82 @@
+//------------------------------------------------
+//--- 010 Editor v15.0.1 Binary Template
+//
+//      File: kitex.bt
+//   Authors: XenonValstrax
+//   Version: 1.2
+//   Purpose: Parsing Killer Instinct texture (*.kitex) files
+//  Category: KI
+// File Mask: *.kitex
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+LittleEndian();
+
+typedef struct
+{
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 sizeX;
+    uint32 sizeY;
+    uint32 depth;
+    uint32 mipmapCount;
+    uint32 UnknownUInt32;
+    enum <uint32>
+    {
+        DXT1 = 2147483649,
+        DXT5 = 2147483653,
+        ATI2 = 6,
+    } fourCC;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 pitchOrLinearSize;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 dataInfoEntry;
+    if (dataInfoEntry != 0)
+    {
+        local uint32 returnPos = FTell();
+        FSeek(dataInfoEntry);
+        uint32 dataInfo[6];
+        FSeek(returnPos);
+    }
+}
+STREAMINFO <read=Str("%u x %u; %s", sizeX, sizeY, EnumToString(fourCC)), optimize=false>;
+
+struct
+{
+    uint32 fileType;
+    uint32 fileVersion;
+    uint32 dataEntry <format=hex>;
+    uint32 infoCount;
+    uint32 UnknownUInt32;
+    uint32 dataCount;
+    uint32 UnknwonUInt32;
+    uint32 infoOffset;
+    local uint32 infoEntry = FTell() + infoOffset;
+    uint32 UnknownUIntGroup_0[infoOffset / 4];
+} header;
+
+FSeek(header.infoEntry);
+struct
+{
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    uint32 UnknownUInt32;
+    STREAMINFO StreamInfo[header.infoCount];
+} info <open=true, bgcolor=cDkBlue, fgcolor=cLtBlue>;
+
+FSeek(header.dataEntry);
+struct
+{
+    uint32 UnknownUInt32Group[33] <bgcolor=cDkGreen, fgcolor=cLtGreen>;
+    string source <fgcolor=cPurple>;
+    byte imageData[FileSize() - FTell()];
+} data;

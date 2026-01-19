@@ -1,0 +1,1 @@
+PyInstaller --optimize 2 --onefile KITexConv.py
