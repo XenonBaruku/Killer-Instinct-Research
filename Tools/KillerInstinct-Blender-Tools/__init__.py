@@ -2,7 +2,7 @@ bl_info = {
     "name": "Killer Instinct Blender Tools",
     "author": "XenonValstrax",
     "blender": (2, 93, 0),
-    "version": (0, 0, 1),
+    "version": (0, 0, 2),
     "description": "Import mesh from game Killer Instinct (2013)",
     "warning": "",
     "category": "Import-Export",

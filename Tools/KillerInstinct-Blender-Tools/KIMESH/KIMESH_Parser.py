@@ -25,6 +25,8 @@ class KIMESHParser():
         unkU32 = fs.readUInt32()
         dataInfo4Entry = fs.readUInt32()
 
+        fs.seek(dataInfoEntry + 1 * 80 + 12)
+        nameChunkOffset = fs.readUInt32()
         fs.seek(dataInfoEntry + 2 * 80 + 12)
         faceChunkEntry = fs.readUInt32() + dataEntry + 12
         fs.seek(dataInfoEntry + 3 * 80 + 12)
@@ -44,7 +46,8 @@ class KIMESHParser():
         nameChunkOffset1 = fs.readUInt32()
         fs.seek(dataInfo2Entry + 23 * 24 + 20)
         nameChunkOffset2 = fs.readUInt32()
-        nameChunkEntry = nameChunkOffset1 + nameChunkOffset2 + dataEntry + 12
+        
+        nameChunkEntry = nameChunkOffset + nameChunkOffset2 + dataEntry + 12
 
         meshInfos = []
         vertexCountSum = 0

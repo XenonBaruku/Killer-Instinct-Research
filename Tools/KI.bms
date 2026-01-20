@@ -1,0 +1,61 @@
+IDSTRING PAK_
+get VERSION long
+get NULL00 long
+get TYPE long
+get FILECOUNT long
+get COUNT01 long
+get COUNT02 long
+
+for i = 0 < COUNT02
+	get NULL01 long
+	get COUNT03 long
+	for j = 0 < COUNT03
+		get NULL02 long
+	next j
+next i
+
+if COUNT01 > 0
+	for i = -1 < COUNT01
+		get HASH long
+		get NSIZE long
+		getdstring NVAR NSIZE
+		print "%NVAR%"
+	next i
+endif
+
+for i = 0 < FILECOUNT
+	getdstring NAME 0xF0
+	get VAR00 short
+	get VAR01 short
+	get OFFSET long
+	get VAR02 long
+	get SIZE long
+	get VAR03 short
+	get VAR04 short
+	get VAR05 short
+	if VAR03 == 0
+	elif VAR03 == 1
+	elif VAR03 == 2
+		set VAR03 string "kimesh"
+	elif VAR03 == 3
+		set VAR03 string "kimat"
+	elif VAR03 == 4
+		set VAR03 string "kitex"
+	elif VAR03 == 13
+		set VAR03 string "CinematicShot.xml"
+	elif VAR03 == 21
+		set VAR03 string "EventList.xml"
+	elif VAR03 == 22
+		set VAR03 string "MeshAttachmentInfo.xml"
+	elif VAR03 == 28
+		set VAR03 string "kihkx"
+	elif VAR03 == 29
+		set VAR03 string "hkAnim"
+	elif VAR03 == 53
+		set VAR03 string "ProceduralAnimationData.xml"
+	endif
+	string NAME += .
+	string NAME += VAR03
+	print "%NAME%"
+	log NAME OFFSET SIZE
+next i

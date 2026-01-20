@@ -3,7 +3,7 @@
 //
 //      File: kimesh.bt
 //   Authors: XenonValstrax
-//   Version: 
+//   Version: 0.3
 //   Purpose: Parsing Killer Instinct mesh (*.kimesh) files
 //  Category: KI
 // File Mask: *.kimesh
@@ -209,7 +209,30 @@ typedef struct
     uint32 UnknownUInt32;
     uint32 UnknownUInt32;
     uint32 UnknownUInt32;
-    uint32 UVType;
+    struct
+    {
+        uint8 unkFlag0 : 1;
+        uint8 unkFlag1 : 1;
+        uint8 unkFlag2 : 1;
+        uint8 unkFlag3 : 1;
+        uint8 unkFlag4 : 1;
+        uint8 unkFlag5 : 1;
+        uint8 weightType1 : 1;
+        uint8 weightType2 : 1;
+    } weightFlags <read=Str("%u%u%u%u%u%u%u%u",unkFlag0,unkFlag1,unkFlag2,unkFlag3,unkFlag4,unkFlag5,weightType1,weightType2)>;
+    struct
+    {
+        uint8 unkFlag0 : 1;
+        uint8 unkFlag1 : 1;
+        uint8 display : 1;
+        uint8 unkFlag3 : 1;
+        uint8 unkFlag4 : 1;
+        uint8 unkFlag5 : 1;
+        uint8 unkFlag6 : 1;
+        uint8 unkFlag7 : 1;
+    } renderFlags <read=Str("%u%u%u%u%u%u%u%u",unkFlag0,unkFlag1,display,unkFlag3,unkFlag4,unkFlag5,unkFlag6,unkFlag7)>;
+    uint8 unknownUInt8;
+    uint8 unknownUInt8;
     uint32 faceIndexStart;
     uint32 faceCount;
     uint32 vertexCount;
@@ -288,29 +311,22 @@ BONEINFO <optimize=false>;
 
 typedef struct
 {
-    uint8 weight;
-    uint8 weight;
-    uint8 weight;
-    uint8 weight;
-    uint8 bone;
-    uint8 bone;
-    uint8 bone;
-    uint8 bone;
+    uint16 weight;
+    uint16 weight;
+    uint16 bone;
+    uint16 bone;
 }
-WEIGHTINFO_8 <read=Str("[%u, %u, %u, %u] (%u, %u, %u, %u)", weight[0], weight[1], weight[2], weight[3], bone[0], bone[1], bone[2], bone[3]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
+WEIGHTINFO_8 <read=Str("[%u, %u] (%u, %u)", weight[0], weight[1], bone[0], bone[1]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
 
 typedef struct
 {
-    uint8 weight;
-    uint8 weight;
-    uint8 weight;
-    uint8 weight;
-    uint16 bone;
-    uint16 bone;
-    uint16 bone;
-    uint16 bone;
+    float weight;
+    float weight;
+    uint8 bone;
+    uint8 bone;
+    uint16 UnknownUInt16;
 }
-WEIGHTINFO_12 <read=Str("[%u, %u, %u, %u] (%u, %u, %u, %u)", weight[0], weight[1], weight[2], weight[3], bone[0], bone[1], bone[2], bone[3]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
+WEIGHTINFO_12 <read=Str("[%f, %f] (%u, %u)", weight[0], weight[1], bone[0], bone[1]), bgcolor=cDkYellow, fgcolor=cLtYellow>;
 
 typedef struct
 {
@@ -406,7 +422,7 @@ struct
     FSeek(dataStart1 + dataInfo2[14].dataOffset);
     MESHINFO2 meshInfo2[dataInfo2[2].dataCount];
     
-    FSeek(dataStart1 + dataInfo2[19].dataOffset + dataInfo2[23].dataOffset);
+    FSeek(dataStart1 + dataInfo1[1].dataOffset + dataInfo2[23].dataOffset);
     struct
     {
         string nameString;
@@ -434,7 +450,7 @@ struct
             FSeek(dataStart1 + dataInfo1[2].dataOffset + meshInfo[_].faceIndexStart * 2);
             FACE faces[meshInfo[_].faceCount];
             
-            local string readStr = parentof(this).nameList[_+1].nameString;
+            local string readStr = parentof(this).nameList[_].nameString;
             //FSeek(FileSize());
             FSeek(dataStart2 + dataInfo2[2].dataOffset + (_+1) * 432);
         } mesh <read=readStr, optimize=false>;

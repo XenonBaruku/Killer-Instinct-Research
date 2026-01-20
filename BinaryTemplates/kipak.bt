@@ -1,0 +1,73 @@
+//------------------------------------------------
+//--- 010 Editor v15.0.1 Binary Template
+//
+//      File: kipak.bt
+//   Authors: XenonValstrax
+//   Version: 1.0
+//   Purpose: Parsing Killer Instinct pak files
+//  Category: KI
+// File Mask: *.PAK
+//  ID Bytes: 50 41 4B 5F
+//   History: 
+//------------------------------------------------
+
+struct
+{
+    byte signature[4];
+    uint32 verison;
+    uint32 UnknownUInt32;
+    uint32 type;
+    uint32 fileCount;
+    uint32 nameCount;
+    uint32 count2;
+} header;
+
+struct
+{
+    uint32 CRC <format=hex>;
+    uint32 count1;
+    uint32 UnknownUInt32Group[count1];
+} unkInfo2[header.count2] <optimize=false>;
+
+if (header.nameCount > 0)
+{
+    struct
+    {
+        uint32 CRC <format=hex>;
+        uint32 length;
+        char nameString[length];
+        
+        local string readStr;
+        if (length != 0)
+        { readStr = nameString; }
+        else
+        { readStr = Str("%u", length); }
+    } nameInfo[header.nameCount + 1] <read=readStr, optimize=false>;
+}
+
+struct
+{
+    char fileName[240];
+    uint16 UnknownUInt16;
+    uint16 UnknownUInt16;
+    uint32 offset <format=hex>;
+    uint32 UnknownUInt32;
+    uint32 size;
+    enum <uint16> { 
+        kimesh = 2,
+        kimat = 3,
+        kitex = 4,
+        XML_CinematicShot = 13,
+        XML_EventList = 21,
+        XML_MeshAttachmentInfo = 22,
+        kihkx = 28,
+        hkAnim = 29,
+        XML_ProceduralAnimationData = 53
+    } fileType;
+    uint16 UnknownUInt16;
+    uint16 UnknownUInt16;
+    local uint32 returnPos = FTell();
+    FSeek(offset);
+    byte DATA[size];
+    FSeek(returnPos);
+} fileInfo[header.fileCount] <read=fileName, optimize=false>; 
