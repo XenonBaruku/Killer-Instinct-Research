@@ -26,7 +26,7 @@ void createDirectoryRecursive(filesystem::path& path)
 
     filesystem::path parentPath = path.parent_path();
 
-    if (!filesystem::exists(parentPath))
+    if (!filesystem::exists(parentPath) || !filesystem::is_directory(parentPath))
     {
         createDirectoryRecursive(parentPath);
         filesystem::create_directory(path);
@@ -68,7 +68,7 @@ int unpack(char* path)
         catch (...)
         {
             free(buffer);
-            return(4);
+            return(5);
         }
     }
 
@@ -150,6 +150,8 @@ int unpack(char* path)
             memcpy(&length, buffer, sizeof(unsigned int));
             nameString = new char[length];
             fs.read(nameString, length);
+
+            delete[] nameString;
         }
     }
 
@@ -206,12 +208,14 @@ int unpack(char* path)
             auto it = fileExtensions.find(fileType);
             if (it != fileExtensions.end())
             {
-                filePath = unpackedFolder / pathString += fileExtensions[fileType];
+                filePath = unpackedFolder / pathString;
+                filePath += fileExtensions[fileType];
             }
             else
             {
-                filePath = unpackedFolder / pathString += ".";
-                filePath = filePath += to_string((unsigned int)fileType);
+                filePath = unpackedFolder / pathString;
+                filePath += ".";
+                filePath += to_string((unsigned int)fileType);
             }
             directoryPath = filePath.parent_path();
             try
