@@ -10,5 +10,6 @@ Currently work in progress. Not sure everything is correct.
 
 ## Tools
  * <b>Killer-Instinct-Blender-Tools</b> - Importing geometry data from *.kimesh files into Blender (3.0+).
+ * <b>KIPakTool</b> - Tool for unpacking (and maybe packing in the future) paks from game.
  * <b>KITexConv</b> - Texture converter that converts *.kitex textures into DDS images.
  * <b>KI.bms</b> - QuickBMS script that used for extracting game files from *.pak archives. Imprvoed from an older script that I can't find where the source is. Fixed extraction issue with some stage paks.
